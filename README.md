@@ -1,6 +1,6 @@
 # postmetad
 
-`postmetad` is a Python package for post-processing PLUMED [metadynamics](https://www.plumed.org/doc-v2.8/user-doc/html/_m_e_t_a_d.html) and [OPES](https://www.plumed.org/doc-v2.8/user-doc/html/_o_p_e_s.html) simulations. 
+`postmetad` is a Python package for post-processing PLUMED [Metadynamics](https://www.plumed.org/doc-v2.8/user-doc/html/_m_e_t_a_d.html) and [On-the-fly Probability Enhanced Sampling (OPES)](https://www.plumed.org/doc-v2.8/user-doc/html/_o_p_e_s.html) simulations. 
 
 `postmetad.metad` can reconstruct biases and free energy profiles from METAD output files, while 
 `postmetad.opes_metad` can reconstruct biases and free energy profiles from OPES_METAD output files.
