@@ -1,0 +1,7 @@
+numpy
+scipy
+matplotlib
+pandas
+
+# github
+# -e git+https://github.com/apallath/WHAM@master#egg=WHAM --global-option build_ext
