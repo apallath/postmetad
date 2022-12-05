@@ -1,0 +1,1 @@
+Example data from [PLUMED OPES tutorial](https://www.plumed.org/doc-v2.8/user-doc/html/opes-metad.html)
