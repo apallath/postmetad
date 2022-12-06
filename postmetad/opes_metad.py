@@ -27,7 +27,9 @@ def read_plumed_colvar_file(fname: str, time_col=0, colvar_cols=[1], bias_col=2)
         bias_col: Column index to read bias value from (default=2).
 
     Returns:
-        cv_df: Pandas DataFrame containing colvars and bias at each time, indexed by time.
+        cv_df: Pandas DataFrame containing colvars and bias at each time, indexed by time. Colvar
+            columns are labeled by the field labels specified by the FIELDS line in the PLUMED 
+            output file. Bias column is labeled as 'bias'.
     """
     times = []
     data = []
@@ -68,6 +70,53 @@ def read_plumed_colvar_file(fname: str, time_col=0, colvar_cols=[1], bias_col=2)
     data = np.array(data)
 
     cv_df = pd.DataFrame(data, index=times, columns=labels)
+
+    return cv_df
+
+
+def read_generic_data_file(fname: str, commentchar: str = '#', time_col=0, colvar_cols=[1]):
+    """
+    Reads a generic data file containing timeseries collective variables (such as data files output
+    by INDUS or xvg files output by GROMACS).
+
+    Args:
+        fname: Path to PLUMED colvar file.
+        time_col: Column index to read time from (default=0).
+        colvar_cols: List of column indices to read collective variables from (int, default=[1]).
+
+    Returns:
+        cv_df: Pandas DataFrame containing colvars at each time, indexed by time. Columns are not 
+            labeled.
+    """
+    times = []
+    data = []
+
+    with open(fname) as f:
+        # Read data file
+        for l in f:
+            lstrip = l.strip()
+
+            # Skip zero-length lines
+            if len(lstrip) == 0:
+                warnings.warn("Skipped blank line in %s" % fname)
+
+            # Parse data
+            elif lstrip[0] != '#' and '#' not in lstrip:
+                lsplit = lstrip.split()
+                # Skip incomplete lines
+                if len(lsplit) <= time_col or len(lsplit) <= max(colvar_cols):
+                    warnings.warn("Incomplete data (%s) encountered in %s (or requested column index > actual # of columns). Line skipped." % (lstrip, fname))
+                else:
+                    tcur = float(lsplit[time_col])
+                    dcur = [float(lsplit[col]) for col in colvar_cols]
+
+                    times.append(tcur)
+                    data.append(dcur)
+    
+    times = np.array(times)
+    data = np.array(data)
+
+    cv_df = pd.DataFrame(data, index=times)
 
     return cv_df
 
