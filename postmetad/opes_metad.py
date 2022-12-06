@@ -101,7 +101,7 @@ def read_generic_data_file(fname: str, commentchar: str = '#', time_col=0, colva
                 warnings.warn("Skipped blank line in %s" % fname)
 
             # Parse data
-            elif lstrip[0] != '#' and '#' not in lstrip:
+            elif lstrip[0] != commentchar and commentchar not in lstrip:
                 lsplit = lstrip.split()
                 # Skip incomplete lines
                 if len(lsplit) <= time_col or len(lsplit) <= max(colvar_cols):
