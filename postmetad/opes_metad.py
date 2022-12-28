@@ -207,7 +207,7 @@ def integrate_out_fes(bF: np.ndarray, dims: Tuple[int]):
     return bF_red - np.min(bF_red)
 
 ## FES plotting
-def plot_1D_fes(bF: np.ndarray, edges=np.ndarray, dpi=300):
+def plot_1D_fes(bF: np.ndarray, edges=np.ndarray, dpi=300, **kwargs):
     r"""
     Plots 1D FES $\beta F$.
 
@@ -218,11 +218,11 @@ def plot_1D_fes(bF: np.ndarray, edges=np.ndarray, dpi=300):
     """
     fig, ax = plt.subplots(dpi=dpi)
     bins = (edges[: -1] + edges[1:]) / 2
-    ax.plot(bins, bF)
+    ax.plot(bins, bF, **kwargs)
     return fig, ax
 
 
-def plot_2D_fes(bF: np.ndarray, edges_x: np.ndarray, edges_y: np.ndarray, clip_min=None, clip_max=None, levels=None, cmap='RdYlBu', dpi=300):
+def plot_2D_fes(bF: np.ndarray, edges_x: np.ndarray, edges_y: np.ndarray, clip_min=None, clip_max=None, levels=None, cmap='RdYlBu', dpi=300, **kwargs):
     r"""
     Generates a filled contour plot of 2D FES $\beta F$.
 
@@ -246,7 +246,7 @@ def plot_2D_fes(bF: np.ndarray, edges_x: np.ndarray, edges_y: np.ndarray, clip_m
     bins_x = (edges_x[: -1] + edges_x[1:]) / 2
     bins_y = (edges_y[: -1] + edges_y[1:]) / 2
 
-    cs = ax.contourf(bins_x, bins_y, bF.T, levels=levels, cmap=cmap)
+    cs = ax.contourf(bins_x, bins_y, bF.T, levels=levels, cmap=cmap, **kwargs)
     ax.contour(bins_x, bins_y, bF.T, levels=levels, colors="black", alpha=0.2)
     cbar = fig.colorbar(cs)
     return fig, ax, cbar
