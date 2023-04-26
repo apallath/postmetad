@@ -164,6 +164,7 @@ def read_plumed_state_file(fname: str, which=-1):
                 else:
                     vals = line.strip().split()
                     nCVs = int((len(vals) - 4) / 2)
+                    params["nCVs"] = nCVs
                     CV_names = vals[3:-1:2]
                     print("Found {} CVs: ".format(nCVs) + ", ".join(CV_names))
                     continue
@@ -273,7 +274,11 @@ def fes_from_state(params, kernels, temp: float = None, beta: float = 1, bins=20
     if temp is not None:
         beta = 1 / (8.314 * temp / 1000)
 
-    pass
+    biasfactor = params["biasfactor"]
+    epsilon = params["epsilon"]
+    cutoff = params["kernel_cutoff"]
+    val_at_cutoff = np.exp(-0.5 * cutoff**2)
+    zed = params["zed"]
 
 
 ## FES reduction
@@ -355,7 +360,7 @@ class OPESBias:
     """
 
     def __init__(self, params, kernels, temp: float = None, beta: float = 1):
-        pass
+        kernels = np.array(kernels)
 
     def bias(self, x: np.ndarray):
         """
